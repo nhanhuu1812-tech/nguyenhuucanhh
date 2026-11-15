@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Theo Dấu Chân Lễ Thành Hầu Nguyễn Hữu Cảnh</title>
+
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Leaflet CSS cho Bản đồ Hành trình -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    :root {
+      --bg-maroon: #580c0c;
+      --bg-dark: #160704;
+      --bg-panel: #260904;
+      --card-cream: #fcf5e8;
+      --gold: #d4a843;
+      --gold-light: #e6c56f;
+      --text-dark: #2c1610;
+      --text-red: #7a1212;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-maroon);
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23721414' fill-opacity='0.35'%3E%3Cpolygon points='30 8 40 24 20 24'/%3E%3Cpolygon points='15 34 25 50 5 50'/%3E%3Cpolygon points='45 34 55 50 35 50'/%3E%3Ccircle cx='30' cy='38' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    /* ================= NAVBAR ================= */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: var(--bg-dark);
+      border-bottom: 1.5px solid var(--gold);
+      padding: 18px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 32px;
+    }
+
+    nav a {
+      color: #f5f5f5;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: color 0.25s ease;
+    }
+
+    nav a:hover {
+      color: var(--gold);
+    }
+
+    /* ================= SECTION CHUNG ================= */
+    section {
+      padding: 70px 6%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .section-divider {
+      width: 68px;
+      height: 3px;
+      background-color: var(--gold);
+      margin: 0 auto 16px;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: #f0dede;
+    }
+
+    /* ================= 1. KHUNG VIDEO TRANG CHỦ ================= */
+    .hero-section {
+      padding-top: 45px;
+      padding-bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .video-frame-wrapper {
+      width: 100%;
+      max-width: 860px;
+      background-color: #000000;
+      border: 1.5px solid var(--gold);
+      border-radius: 22px;
+      padding: 18px 22px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65);
+    }
+
+    .yt-custom-player {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      background-color: #090909;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .yt-custom-player img.yt-thumb {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.9;
+      transition: transform 0.4s ease, opacity 0.3s ease;
+    }
+
+    .yt-custom-player:hover img.yt-thumb {
+      transform: scale(1.02);
+      opacity: 1;
+    }
+
+    .yt-top-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0) 100%);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 3;
+    }
+
+    .yt-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #7a1212;
+      border: 1.5px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .yt-title-text {
+      color: #fff;
+      font-size: 1.02rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+    }
+
+    .yt-sub-text {
+      color: #ccc;
+      font-size: 0.78rem;
+    }
+
+    .yt-play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 68px;
+      height: 48px;
+      background-color: #ff0000;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+      z-index: 3;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .yt-custom-player:hover .yt-play-button {
+      transform: translate(-50%, -50%) scale(1.1);
+      background-color: #e60000;
+    }
+
+    .yt-play-button i {
+      color: #ffffff;
+      font-size: 1.4rem;
+      margin-left: 3px;
+    }
+
+    .yt-bottom-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 14px 20px;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 3;
+    }
+
+    .yt-link-icon {
+      color: #fff;
+      font-size: 1.05rem;
+      opacity: 0.85;
+    }
+
+    .yt-watch-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #fff;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .yt-watch-badge i {
+      color: #ff0000;
+      font-size: 1.2rem;
+    }
+
+    .yt-custom-player iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      z-index: 5;
+      background: #000;
+    }
+
+    .video-helper-bar {
+      margin-top: 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .small-action-btn {
+      background: rgba(22, 7, 4, 0.9);
+      color: var(--gold-light);
+      border: 1px solid rgba(212, 168, 67, 0.65);
+      padding: 9px 22px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .small-action-btn:hover {
+      background: var(--gold);
+      color: #160704;
+      transform: translateY(-2px);
+    }
+
+    /* ================= 2. DÒNG THỜI GIAN ================= */
+    .timeline-outer-box {
+      background-color: var(--bg-panel);
+      border-radius: 36px;
+      padding: 45px 55px 35px;
+      position: relative;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(212, 168, 67, 0.2);
+    }
+
+    .timeline-viewport {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .timeline-track {
+      display: flex;
+      gap: 24px;
+      transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .timeline-card {
+      flex: 0 0 calc((100% - 48px) / 3);
+      background-color: var(--card-cream);
+      color: var(--text-dark);
+      border-radius: 20px;
+      border-left: 7px solid var(--gold);
+      padding: 32px 26px;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .timeline-date {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.65rem;
+      color: var(--text-red);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .timeline-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1f110c;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .timeline-card ul {
+      padding-left: 18px;
+      font-size: 0.94rem;
+      color: #3b231b;
+    }
+
+    .timeline-card li {
+      margin-bottom: 6px;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--gold);
+      font-size: 2.2rem;
+      cursor: pointer;
+      padding: 10px;
+      transition: transform 0.2s ease, color 0.2s ease;
+      z-index: 10;
+    }
+
+    .carousel-btn:hover {
+      color: var(--gold-light);
+      transform: translateY(-50%) scale(1.15);
+    }
+
+    .carousel-btn.prev { left: 16px; }
+    .carousel-btn.next { right: 16px; }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 26px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background-color: #120402;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .dot.active {
+      background-color: var(--gold);
+      transform: scale(1.25);
+    }
+
+    /* ================= 3. THƯ VIỆN ẢNH & TƯ LIỆU ================= */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .gallery-card {
+      background-color: var(--bg-dark);
+      border: 1.2px solid var(--gold);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .gallery-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .gallery-img-box {
+      width: 100%;
+      height: 245px;
+      overflow: hidden;
+      background-color: #2b120c;
+      position: relative;
+    }
+
+    .gallery-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-card:hover .gallery-img-box img {
+      transform: scale(1.05);
+    }
+
+    /* Thẻ tư liệu trích dẫn đặc biệt */
+    .doc-special-box {
+      width: 100%;
+      height: 245px;
+      background: #efe6d5;
+      color: #2c1610;
+      padding: 20px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .doc-tablet {
+      flex: 0 0 42%;
+      height: 195px;
+      background: linear-gradient(145deg, #c9a66b, #a37c40);
+      border: 2px solid #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      padding: 12px 10px;
+      font-family: 'Playfair Display', serif;
+      color: #2b1405;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .doc-tablet h4 {
+      font-size: 0.82rem;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #4a2810;
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .doc-tablet p {
+      font-size: 0.7rem;
+      line-height: 1.35;
+      font-style: italic;
+    }
+
+    .doc-quote-side {
+      flex: 1;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.84rem;
+      line-height: 1.45;
+      color: #23110b;
+    }
+
+    .gallery-caption {
+      padding: 18px 16px;
+      text-align: center;
+      background-color: var(--bg-dark);
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gallery-caption a {
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: underline;
+      text-decoration-color: #4f6df5;
+      text-underline-offset: 4px;
+    }
+
+    /* ================= 4. BÀI HỌC LỊCH SỬ ================= */
+    .lessons-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+
+    .lesson-card {
+      background-color: var(--card-cream);
+      color: var(--text-dark);
+      border-radius: 22px;
+      border-top: 6px solid var(--gold);
+      padding: 30px 24px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .lesson-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .lesson-icon {
+      font-size: 2rem;
+      color: #c59b27;
+      margin-bottom: 18px;
+    }
+
+    .lesson-title {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: #1a0f0a;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .lesson-text {
+      font-size: 0.92rem;
+      color: #3a2219;
+      line-height: 1.6;
+    }
+
+    .quote-banner {
+      background-color: #3f0909;
+      border-left: 7px solid var(--gold);
+      border-radius: 26px;
+      padding: 36px 45px;
+      text-align: center;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .quote-content {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #fff6e5;
+      margin-bottom: 12px;
+    }
+
+    .quote-author {
+      font-size: 1.05rem;
+      color: var(--gold-light);
+      font-style: italic;
+    }
+
+    /* ================= 5. BẢN ĐỒ HÀNH TRÌNH ================= */
+    .map-mode-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .map-tab-btn {
+      background: rgba(22, 7, 4, 0.8);
+      color: #f0dede;
+      border: 1px solid rgba(212, 168, 67, 0.5);
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .map-tab-btn.active {
+      background: var(--gold);
+      color: #160704;
+      border-color: var(--gold);
+    }
+
+    .map-card-wrapper {
+      background-color: var(--bg-panel);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+      border: 1.5px solid rgba(212, 168, 67, 0.35);
+    }
+
+    #journey-map {
+      width: 100%;
+      height: 500px;
+      z-index: 1;
+    }
+
+    #google-map-iframe-box {
+      display: none;
+      width: 100%;
+      height: 500px;
+    }
+
+    #google-map-iframe-box iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .map-footer {
+      background-color: var(--bg-dark);
+      padding: 16px 24px;
+      text-align: center;
+      font-size: 0.98rem;
+      color: #f7e9d0;
+      border-top: 1px solid rgba(212, 168, 67, 0.3);
+    }
+
+    .map-footer i {
+      color: #ff4d4d;
+      margin-right: 6px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 28px 6%;
+      background-color: var(--bg-dark);
+      border-top: 1px solid rgba(212, 168, 67, 0.4);
+      font-size: 0.9rem;
+      color: #bfa59b;
+    }
+
+    @media (max-width: 1024px) {
+      .timeline-card { flex: 0 0 calc((100% - 24px) / 2); }
+      .lessons-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 680px) {
+      header { flex-direction: column; gap: 12px; }
+      nav ul { flex-wrap: wrap; justify-content: center; gap: 16px; }
+      .timeline-card { flex: 0 0 100%; }
+      .lessons-grid, .gallery-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header>
+    <a href="#trang-chu" class="brand-title">LỄ THÀNH HẦU NGUYỄN HỮU CẢNH</a>
+    <nav>
+      <ul>
+        <li><a href="#trang-chu">Trang chủ</a></li>
+        <li><a href="#dong-thoi-gian">Dòng thời gian</a></li>
+        <li><a href="#thu-vien-anh">Thư viện ảnh</a></li>
+        <li><a href="#bai-hoc">Bài học</a></li>
+        <li><a href="#ban-do">Bản đồ</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ================= 1. VIDEO TRANG CHỦ ================= -->
+  <section id="trang-chu" class="hero-section">
+    <div class="video-frame-wrapper">
+      <div class="yt-custom-player" id="ytPlayerBox" onclick="playHeroVideo()">
+        <img 
+          class="yt-thumb" 
+          src="https://i.ytimg.com/vi/ssuIcsjuBAI/hqdefault.jpg" 
+          referrerpolicy="no-referrer"
+          alt="Nguyễn Hữu Cảnh - Vị Thượng Đẳng Công Thần Khai Phá Bờ Cõi Phía Nam" 
+        />
+
+        <div class="yt-top-bar">
+          <div class="yt-avatar">Sử</div>
+          <div style="overflow: hidden;">
+            <div class="yt-title-text">Nguyễn Hữu Cảnh - Vị Thượng Đẳng Công Thần Khai Phá Bờ Cõi Phía Nam | BÍ ẨN SỬ VIỆT</div>
+            <div class="yt-sub-text">BÍ ẨN SỬ VIỆT • Tư liệu lịch sử</div>
+          </div>
+        </div>
+
+        <div class="yt-play-button">
+          <i class="fa-solid fa-play"></i>
+        </div>
+
+        <div class="yt-bottom-bar">
+          <span class="yt-link-icon"><i class="fa-solid fa-link"></i></span>
+          <a href="https://youtu.be/ssuIcsjuBAI?si=qAkxS6Ptcw42Xksi" target="_blank" rel="noopener" class="yt-watch-badge" onclick="event.stopPropagation();">
+            Watch on <i class="fa-brands fa-youtube"></i> <strong>YouTube</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chỉ giữ đúng 1 nút Mở video trên YouTube -->
+    <div class="video-helper-bar">
+      <a href="https://youtu.be/ssuIcsjuBAI?si=qAkxS6Ptcw42Xksi" target="_blank" rel="noopener" class="small-action-btn">
+        <i class="fa-brands fa-youtube"></i> Mở video trên YouTube
+      </a>
+    </div>
+  </section>
+
+  <!-- ================= 2. DÒNG THỜI GIAN (6 THẺ) ================= -->
+  <section id="dong-thoi-gian">
+    <div class="section-header">
+      <h2 class="section-title">Biên niên sử 1650–1700</h2>
+      <div class="section-divider"></div>
+      <p class="section-subtitle">6 mốc son cuộc đời và sự nghiệp mở cõi phương Nam của Lễ Thành Hầu Nguyễn Hữu Cảnh</p>
+    </div>
+
+    <div class="timeline-outer-box">
+      <button class="carousel-btn prev" id="prevBtn" aria-label="Trước">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <div class="timeline-viewport">
+        <div class="timeline-track" id="timelineTrack">
+          <!-- Thẻ 1 -->
+          <div class="timeline-card">
+            <div class="timeline-date">Năm 1650</div>
+            <div class="timeline-card-title">⚔️ Thân thế & Gốc gác</div>
+            <ul>
+              <li>Sinh tại Hà Nội, dòng dõi danh tướng Nguyễn Hữu Dật.</li>
+              <li>Sớm dày dạn kinh nghiệm trận mạc, lập nhiều chiến công dưới triều chúa Nguyễn.</li>
+            </ul>
+          </div>
+
+          <!-- Thẻ 2 -->
+          <div class="timeline-card">
+            <div class="timeline-date">Tháng 2/1698</div>
+            <div class="timeline-card-title">⛵ Nhận trọng trách</div>
+            <ul>
+              <li>Được chúa Nguyễn Phúc Chu cử làm Thống suất.</li>
+              <li>Vượt biển vào phương Nam khảo sát địa hình, ổn định dân cư vùng đất mới.</li>
+            </ul>
+          </div>
+
+          <!-- Thẻ 3 -->
+          <div class="timeline-card">
+            <div class="timeline-date">Năm 1698</div>
+            <div class="timeline-card-title">🏛️ Mốc son lịch sử</div>
+            <ul>
+              <li>Thiết lập nền móng pháp lý chủ quyền Đại Việt tại phương Nam.</li>
+              <li>Thành lập phủ Phước Long (dinh Trấn Biên - Đồng Nai) và dinh Gia Định, quy tụ lưu dân khai hoang.</li>
+            </ul>
+          </div>
+
+          <!-- Thẻ 4 -->
+          <div class="timeline-card">
+            <div class="timeline-date">1699 – 1700</div>
+            <div class="timeline-card-title">🛡️ Củng cố biên cương</div>
+            <ul>
+              <li>Trực tiếp cầm quân dẹp loạn tại Chân Lạp.</li>
+              <li>Giữ vững bình yên vùng biên giới, củng cố quan hệ ngoại giao hòa hiếu.</li>
+            </ul>
+          </div>
+
+          <!-- Thẻ 5 -->
+          <div class="timeline-card">
+            <div class="timeline-date">16.5 Canh Thìn (1700)</div>
+            <div class="timeline-card-title">🕯️ Trọn nghĩa vẹn tình</div>
+            <ul>
+              <li>Lâm bệnh nặng và qua đời tại Cù lao Phố (Biên Hòa, Đồng Nai) ở tuổi 51.</li>
+              <li>Khép lại cuộc đời lẫy lừng cống hiến cho đất nước.</li>
+            </ul>
+          </div>
+
+          <!-- Thẻ 6 -->
+          <div class="timeline-card">
+            <div class="timeline-date">Hậu thế ghi ơn</div>
+            <div class="timeline-card-title">🔥 Sống mãi với thời gian</div>
+            <ul>
+              <li>Triều đình truy tặng tước hiệu cao quý.</li>
+              <li>Nhân dân Nam Bộ lập đền thờ khắp nơi (Đền thờ tại Biên Hòa), đời đời khắc ghi công ơn vị tướng khai phá.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <button class="carousel-btn next" id="nextBtn" aria-label="Tiếp">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+  </section>
+
+  <!-- ================= 3. THƯ VIỆN HÌNH ẢNH & TƯ LIỆU (HIỂN THỊ TRỰC TIẾP ONLINE) ================= -->
+  <section id="thu-vien-anh">
+    <div class="section-header">
+      <h2 class="section-title">Thư viện hình ảnh & tư liệu</h2>
+      <div class="section-divider"></div>
+      <p class="section-subtitle">Các di tích, tượng đài và không gian lịch sử tôn vinh Đức Ông Nguyễn Hữu Cảnh</p>
+    </div>
+
+    <div class="gallery-grid">
+      <!-- Thẻ 1: Đền thờ Nguyễn Hữu Cảnh tại Cù lao Phố (Link Wikimedia bạn gửi) -->
+      <div class="gallery-card">
+        <div class="gallery-img-box">
+          <img 
+            src="https://upload.wikimedia.org/wikipedia/commons/0/0e/%C4%90%E1%BB%81n_th%E1%BB%9D_Nguy%E1%BB%85n_H%E1%BB%AFu_C%E1%BA%A3nh_t%E1%BA%A1i_C%C3%B9_lao_Ph%E1%BB%91.jpg" 
+            onerror="this.src='https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/%C4%90%E1%BB%81n_th%E1%BB%9D_Nguy%E1%BB%85n_H%E1%BB%AFu_C%E1%BA%A3nh_t%E1%BA%A1i_C%C3%B9_lao_Ph%E1%BB%91.jpg/250px-%C4%90%E1%BB%81n_th%E1%BB%9D_Nguy%E1%BB%85n_H%E1%BB%AFu_C%E1%BA%A3nh_t%E1%BA%A1i_C%C3%B9_lao_Ph%E1%BB%91.jpg'"
+            referrerpolicy="no-referrer"
+            alt="Đền thờ Nguyễn Hữu Cảnh tại Cù lao Phố" 
+          />
+        </div>
+        <div class="gallery-caption">
+          <a href="https://vi.wikipedia.org/wiki/Nguy%E1%BB%85n_H%E1%BB%AFu_C%E1%BA%A3nh" target="_blank" rel="noopener">
+            ⛩️ Đền thờ Nguyễn Hữu Cảnh tại Cù lao Phố (Biên Hòa)
+          </a>
+        </div>
+      </div>
+
+      <!-- Thẻ 2: Chính điện Đền thờ Nguyễn Hữu Cảnh (Link báo Dân Trí bạn gửi) -->
+      <div class="gallery-card">
+        <div class="gallery-img-box">
+          <img 
+            src="https://cdnphoto.dantri.com.vn/OV009Rg12Ooa9_M-Huru-UxViK4=/thumb_w/1920/2026/05/18/3-edited-1779084005550.jpg" 
+            referrerpolicy="no-referrer"
+            alt="Chính điện Đền thờ Lễ Thành Hầu Nguyễn Hữu Cảnh" 
+          />
+        </div>
+        <div class="gallery-caption">
+          <a href="https://dantri.com.vn/doi-song/den-tho-nguyen-huu-canh-noi-ghi-dau-nguoi-di-mo-coi-vung-dat-dong-nai-20260518112219850.htm" target="_blank" rel="noopener">
+            🕯️ Không gian thờ tự Lễ Thành Hầu Nguyễn Hữu Cảnh
+          </a>
+        </div>
+      </div>
+
+      <!-- Thẻ 3: Trường THPT Nguyễn Hữu Cảnh - Đồng Nai (Link Clevai bạn gửi) -->
+      <div class="gallery-card">
+        <div class="gallery-img-box">
+          <img 
+            src="https://r73troypb4obj.vcdn.cloud/website02/uploads/images/628dddb11a1b855737a80950/danh-gia-truong-thpt-nguyen-huu-canh-dong-nai-co-tot-khong.jpg" 
+            referrerpolicy="no-referrer"
+            alt="Trường THPT Nguyễn Hữu Cảnh - Đồng Nai" 
+          />
+        </div>
+        <div class="gallery-caption">
+          <a href="https://clevai.edu.vn/hieu-con-yeu/danh-gia-truong-thpt-nguyen-huu-canh-dong-nai-co-tot-khong/" target="_blank" rel="noopener">
+            🏫 Trường THPT Nguyễn Hữu Cảnh – Biên Hòa, Đồng Nai
+          </a>
+        </div>
+      </div>
+
+      <!-- Thẻ 4: Trường THPT Nguyễn Hữu Cảnh - Quảng Bình (Link Clevai bạn gửi) -->
+      <div class="gallery-card">
+        <div class="gallery-img-box">
+          <img 
+            src="https://r73troypb4obj.vcdn.cloud/website02/uploads/images/632b07631a1b851a1ce688e1/danh-gia-truong-thpt-nguyen-huu-canh-quang-binh-co-tot-khong__1_.jpg" 
+            referrerpolicy="no-referrer"
+            alt="Trường THPT Nguyễn Hữu Cảnh - Quảng Bình" 
+          />
+        </div>
+        <div class="gallery-caption">
+          <a href="https://clevai.edu.vn/hieu-con-yeu/danh-gia-truong-thpt-nguyen-huu-canh-quang-binh-co-tot-khong/" target="_blank" rel="noopener">
+            🎓 Trường THPT Nguyễn Hữu Cảnh – Tiếp nối truyền thống
+          </a>
+        </div>
+      </div>
+
+      <!-- Thẻ 5: Tranh tư liệu Thượng Đẳng Công Thần mở cõi phương Nam -->
+      <div class="gallery-card">
+        <div class="gallery-img-box">
+          <img 
+            src="https://i.ytimg.com/vi/ssuIcsjuBAI/hqdefault.jpg" 
+            referrerpolicy="no-referrer"
+            alt="Tư liệu Thượng Đẳng Công Thần Nguyễn Hữu Cảnh" 
+          />
+        </div>
+        <div class="gallery-caption">
+          <a href="https://youtu.be/ssuIcsjuBAI?si=qAkxS6Ptcw42Xksi" target="_blank" rel="noopener">
+            🗿 Vị Thượng Đẳng Công Thần khai phá bờ cõi phương Nam
+          </a>
+        </div>
+      </div>
+
+      <!-- Thẻ 6: Tư liệu sử sách Đại Nam Thực Lục -->
+      <div class="gallery-card">
+        <div class="doc-special-box">
+          <div class="doc-tablet">
+            <h4>Đại Nam Thực Lục</h4>
+            <p>“Lấy xứ Đồng Nai làm huyện Phước Long, dựng dinh Trấn Biên; lấy xứ Sài Côn làm huyện Tân Bình, dựng dinh Phiên Trấn...”</p>
+          </div>
+          <div class="doc-quote-side">
+            <i class="fa-solid fa-quote-left" style="color:#8c5828; font-size:1.2rem;"></i>
+            <p style="margin-top:6px;">
+              Mùa xuân năm Mậu Dần (1698), Thống suất Nguyễn Hữu Cảnh vâng mệnh kinh lược phương Nam, chiêu mộ lưu dân từ Bố Chính trở vào, lập xã thôn, khai khẩn ruộng nương, định ngạch thuế, hoàn chỉnh bản đồ Đại Việt.
+            </p>
+          </div>
+        </div>
+        <div class="gallery-caption">
+          <a href="#thu-vien-anh">📜 Sử liệu khai sáng phủ Gia Định & dinh Trấn Biên (1698)</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 4. BÀI HỌC LỊCH SỬ & DI SẢN TƯ TƯỞNG ================= -->
+  <section id="bai-hoc">
+    <div class="section-header">
+      <h2 class="section-title">Bài học lịch sử & Di sản tư tưởng</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="lessons-grid">
+      <div class="lesson-card">
+        <div class="lesson-icon"><i class="fa-solid fa-compass"></i></div>
+        <h3 class="lesson-title">Tư duy chiến lược tầm nhìn hướng biển và mở cõi</h3>
+        <p class="lesson-text">
+          Việc đưa hàng vạn lưu dân khai hoang, thiết lập bộ máy hành chính (phủ Phước Long, dinh Gia Định năm 1698) cho thấy tầm nhìn chiến lược vĩ đại. Ông đặt nền móng vững chắc cho việc khẳng định chủ quyền lãnh thổ gắn liền với công cuộc phát triển kinh tế - xã hội, biến vùng đất hoang sơ thành không gian sinh tồn trù phú của dân tộc.
+        </p>
+      </div>
+
+      <div class="lesson-card">
+        <div class="lesson-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+        <h3 class="lesson-title">Tinh thần "An dân - Lập ấp" và lấy dân làm gốc</h3>
+        <p class="lesson-text">
+          Nguyễn Hữu Cảnh không chỉ dùng vũ lực để trấn áp mà trọng tâm lớn nhất là ổn định đời sống nhân dân, chiêu mộ lưu dân, phân định ruộng đất, lập làng ấp. Điều này minh chứng cho tư tưởng cốt lõi: Muốn giữ vững biên cương thì phải làm cho dân giàu, nước mạnh, lòng dân quy tụ.
+        </p>
+      </div>
+
+      <div class="lesson-card">
+        <div class="lesson-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3 class="lesson-title">Trách nhiệm bảo vệ biên cương và ngoại giao hòa hiếu</h3>
+        <p class="lesson-text">
+          Qua chiến dịch dẹp loạn ở Chân Lạp (1699–1700), ông thể hiện rõ bản lĩnh của một danh tướng vừa quyết đoán trong quân sự vừa khôn khéo trong ngoại giao, giữ gìn môi trường hòa bình, ổn định để nhân dân an cư lạc nghiệp ở vùng biên viễn.
+        </p>
+      </div>
+
+      <div class="lesson-card">
+        <div class="lesson-icon"><i class="fa-solid fa-seedling"></i></div>
+        <h3 class="lesson-title">Đạo lý "Uống nước nhớ nguồn" và tinh thần cống hiến tận tụy</h3>
+        <p class="lesson-text">
+          Cuộc đời ông khép lại khi đang trên đường công vụ ở tuổi 51 là biểu tượng sáng ngời cho tinh thần "tận trung với nước, tận hiếu với dân", xả thân vì sự nghiệp chung của quốc gia đại sự.
+        </p>
+      </div>
+    </div>
+
+    <div class="quote-banner">
+      <p class="quote-content">
+        <i class="fa-solid fa-quote-left" style="margin-right: 8px; color: var(--gold);"></i>
+        “Uy phong lẫm liệt trấn phương Nam, Đức độ dài lâu rạng đất trời.”
+      </p>
+      <p class="quote-author">— Lời người đời tôn vinh Lễ Thành Hầu Nguyễn Hữu Cảnh</p>
+    </div>
+  </section>
+
+  <!-- ================= 5. HÀNH TRÌNH ĐỊA LỊCH SỬ (BẢN ĐỒ) ================= -->
+  <section id="ban-do">
+    <div class="section-header">
+      <h2 class="section-title">Hành trình địa lịch sử</h2>
+      <div class="section-divider"></div>
+      <p class="section-subtitle">Dấu chân mở cõi và giữ yên bờ cõi phương Nam của Thống suất Nguyễn Hữu Cảnh</p>
+    </div>
+
+    <div class="map-mode-tabs">
+      <button class="map-tab-btn active" id="tabLeafletBtn" onclick="switchMapMode('leaflet')">
+        🗺️ Bản đồ Hành trình (5 cột mốc lịch sử)
+      </button>
+      <button class="map-tab-btn" id="tabGoogleBtn" onclick="switchMapMode('google')">
+        📍 Đền thờ Nguyễn Hữu Cảnh (Google Maps thực tế)
+      </button>
+    </div>
+
+    <div class="map-card-wrapper">
+      <div id="journey-map"></div>
+
+      <div id="google-map-iframe-box">
+        <iframe 
+          src="https://maps.google.com/maps?q=Đền+thờ+Nguyễn+Hữu+Cảnh,+Hiệp+Hòa,+Biên+Hòa,+Đồng+Nai&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+          allowfullscreen 
+          loading="lazy">
+        </iframe>
+      </div>
+
+      <div class="map-footer">
+        <i class="fa-solid fa-location-dot"></i>
+        Hành trình kinh lược từ Phú Xuân – Quảng Bình vào Cù lao Phố (Trấn Biên - Đồng Nai), Sài Côn (Gia Định) và vùng biên viễn Tây Nam
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Trang thông tin lịch sử Lễ Thành Hầu Nguyễn Hữu Cảnh (1650 – 1700) • Đệ nhất công thần khai phá vùng đất phương Nam
+  </footer>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    /* 1. XỬ LÝ PHÁT VIDEO TRỰC TIẾP TRÊN HTTP/HTTPS */
+    function playHeroVideo() {
+      const videoUrl = "https://youtu.be/ssuIcsjuBAI?si=qAkxS6Ptcw42Xksi";
+      if (window.location.protocol === 'file:') {
+        window.open(videoUrl, '_blank');
+      } else {
+        // Khi chạy trên HTTP/HTTPS, phát video trực tiếp ngay trong khung
+        const box = document.getElementById('ytPlayerBox');
+        box.innerHTML = `<iframe src="https://www.youtube.com/embed/ssuIcsjuBAI?autoplay=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+      }
+    }
+
+    /* 2. XỬ LÝ CAROUSEL DÒNG THỜI GIAN */
+    const track = document.getElementById('timelineTrack');
+    const cards = Array.from(track.children);
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotsContainer = document.getElementById('carouselDots');
+
+    let currentIndex = 0;
+
+    function getCardsPerView() {
+      if (window.innerWidth <= 680) return 1;
+      if (window.innerWidth <= 1024) return 2;
+      return 3;
+    }
+
+    function getMaxIndex() {
+      return Math.max(0, cards.length - getCardsPerView());
+    }
+
+    function renderDots() {
+      dotsContainer.innerHTML = '';
+      const maxIdx = getMaxIndex();
+      for (let i = 0; i <= maxIdx; i++) {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (i === currentIndex) dot.classList.add('active');
+        dot.addEventListener('click', () => {
+          currentIndex = i;
+          updateCarousel();
+        });
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function updateCarousel() {
+      const maxIdx = getMaxIndex();
+      if (currentIndex > maxIdx) currentIndex = maxIdx;
+      if (currentIndex < 0) currentIndex = 0;
+
+      const cardWidth = cards[0].getBoundingClientRect().width;
+      const gap = 24;
+      const moveX = currentIndex * (cardWidth + gap);
+      track.style.transform = `translateX(-${moveX}px)`;
+
+      const dots = Array.from(dotsContainer.children);
+      dots.forEach((d, idx) => d.classList.toggle('active', idx === currentIndex));
+    }
+
+    prevBtn.addEventListener('click', () => {
+      currentIndex = currentIndex > 0 ? currentIndex - 1 : getMaxIndex();
+      updateCarousel();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      currentIndex = currentIndex < getMaxIndex() ? currentIndex + 1 : 0;
+      updateCarousel();
+    });
+
+    window.addEventListener('resize', () => {
+      renderDots();
+      updateCarousel();
+    });
+
+    renderDots();
+    updateCarousel();
+
+    /* 3. BẢN ĐỒ HÀNH TRÌNH ĐỊA LỊCH SỬ */
+    const map = L.map('journey-map').setView([13.5, 106.8], 6);
+
+    const esriLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 18,
+      attribution: '&copy; Esri &bull; Hành trình Lễ Thành Hầu Nguyễn Hữu Cảnh'
+    });
+
+    esriLayer.addTo(map);
+
+    const locations = [
+      {
+        coords: [17.468, 106.622],
+        title: "1. Chương Tín, Phong Lộc (Quảng Bình) – 1650",
+        desc: "Dòng dõi danh tướng Nguyễn Hữu Dật, nơi rèn luyện võ nghệ và chí lớn thời niên thiếu."
+      },
+      {
+        coords: [16.463, 107.590],
+        title: "2. Kinh đô Phú Xuân (Huế) – Tháng 2/1698",
+        desc: "Nhận mệnh chúa Nguyễn Phúc Chu làm Thống suất vượt biển vào kinh lược phương Nam."
+      },
+      {
+        coords: [10.945, 106.813],
+        title: "3. Cù lao Phố – Dinh Trấn Biên (Biên Hòa, Đồng Nai) – 1698",
+        desc: "Đóng đại bản doanh tại Cù lao Phố, lập phủ Phước Long, dựng dinh Trấn Biên và cũng là nơi ông qua đời năm 1700."
+      },
+      {
+        coords: [10.776, 106.701],
+        title: "4. Sài Côn – Dinh Gia Định (TP.HCM) – 1698",
+        desc: "Lập huyện Tân Bình, dựng dinh Phiên Trấn (Gia Định), quy tụ lưu dân khai hoang lập ấp."
+      },
+      {
+        coords: [10.345, 106.265],
+        title: "5. Tuyến Sông Tiền – Biên cương Tây Nam (1699–1700)",
+        desc: "Trực tiếp cầm quân giữ vững bình yên vùng biên giới và củng cố ngoại giao hòa hiếu."
+      }
+    ];
+
+    const latlngs = [];
+
+    locations.forEach((loc, index) => {
+      latlngs.push(loc.coords);
+      const marker = L.marker(loc.coords).addTo(map);
+      marker.bindPopup(`<b>${loc.title}</b><br/>${loc.desc}`);
+      if (index === 2) marker.openPopup();
+    });
+
+    L.polyline(latlngs, {
+      color: '#8b0000',
+      weight: 4,
+      dashArray: '8, 8',
+      opacity: 0.9
+    }).addTo(map);
+
+    function switchMapMode(mode) {
+      const leafletBox = document.getElementById('journey-map');
+      const googleBox = document.getElementById('google-map-iframe-box');
+      const btnLeaflet = document.getElementById('tabLeafletBtn');
+      const btnGoogle = document.getElementById('tabGoogleBtn');
+
+      if (mode === 'leaflet') {
+        leafletBox.style.display = 'block';
+        googleBox.style.display = 'none';
+        btnLeaflet.classList.add('active');
+        btnGoogle.classList.remove('active');
+        setTimeout(() => map.invalidateSize(), 100);
+      } else {
+        leafletBox.style.display = 'none';
+        googleBox.style.display = 'block';
+        btnLeaflet.classList.remove('active');
+        btnGoogle.classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>
