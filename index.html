@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bắt buộc dùng strict-origin-when-cross-origin để YouTube cho phép phát video trong iframe -->
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Theo Dấu Chân Lễ Thành Hầu Nguyễn Hữu Cảnh</title>
 
@@ -133,174 +134,23 @@
       box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65);
     }
 
-    .yt-custom-player {
+    .video-responsive {
       position: relative;
       width: 100%;
       padding-bottom: 56.25%;
-      background-color: #090909;
-      border-radius: 12px;
+      height: 0;
       overflow: hidden;
-      cursor: pointer;
-    }
-
-    .yt-custom-player img.yt-thumb {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.9;
-      transition: transform 0.4s ease, opacity 0.3s ease;
-    }
-
-    .yt-custom-player:hover img.yt-thumb {
-      transform: scale(1.02);
-      opacity: 1;
-    }
-
-    .yt-top-bar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      padding: 16px 20px;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0) 100%);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      z-index: 3;
-    }
-
-    .yt-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #7a1212;
-      border: 1.5px solid var(--gold);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: var(--gold);
-      font-size: 0.85rem;
-      flex-shrink: 0;
-    }
-
-    .yt-title-text {
-      color: #fff;
-      font-size: 1.02rem;
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
-    }
-
-    .yt-sub-text {
-      color: #ccc;
-      font-size: 0.78rem;
-    }
-
-    .yt-play-button {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 68px;
-      height: 48px;
-      background-color: #ff0000;
       border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
-      z-index: 3;
-      transition: transform 0.2s ease, background-color 0.2s ease;
+      background-color: #000;
     }
 
-    .yt-custom-player:hover .yt-play-button {
-      transform: translate(-50%, -50%) scale(1.1);
-      background-color: #e60000;
-    }
-
-    .yt-play-button i {
-      color: #ffffff;
-      font-size: 1.4rem;
-      margin-left: 3px;
-    }
-
-    .yt-bottom-bar {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 14px 20px;
-      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 3;
-    }
-
-    .yt-link-icon {
-      color: #fff;
-      font-size: 1.05rem;
-      opacity: 0.85;
-    }
-
-    .yt-watch-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: #fff;
-      font-size: 0.92rem;
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .yt-watch-badge i {
-      color: #ff0000;
-      font-size: 1.2rem;
-    }
-
-    .yt-custom-player iframe {
+    .video-responsive iframe {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       border: 0;
-      z-index: 5;
-      background: #000;
-    }
-
-    .video-helper-bar {
-      margin-top: 16px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .small-action-btn {
-      background: rgba(22, 7, 4, 0.9);
-      color: var(--gold-light);
-      border: 1px solid rgba(212, 168, 67, 0.65);
-      padding: 9px 22px;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .small-action-btn:hover {
-      background: var(--gold);
-      color: #160704;
-      transform: translateY(-2px);
     }
 
     /* ================= 2. DÒNG THỜI GIAN ================= */
@@ -689,46 +539,19 @@
     </nav>
   </header>
 
-  <!-- ================= 1. VIDEO TRANG CHỦ ================= -->
-  <section id="trang-chu" class="hero-section">
+  <!-- ================= 1. VIDEO TRANG CHỦ (CHẠY TRỰC TIẾP TRONG WEB) ================= -->
+<section id="trang-chu" class="hero-section">
     <div class="video-frame-wrapper">
-      <div class="yt-custom-player" id="ytPlayerBox" onclick="playHeroVideo()">
-        <img 
-          class="yt-thumb" 
-          src="https://i.ytimg.com/vi/ssuIcsjuBAI/hqdefault.jpg" 
-          referrerpolicy="no-referrer"
-          alt="Nguyễn Hữu Cảnh - Vị Thượng Đẳng Công Thần Khai Phá Bờ Cõi Phía Nam" 
-        />
-
-        <div class="yt-top-bar">
-          <div class="yt-avatar">Sử</div>
-          <div style="overflow: hidden;">
-            <div class="yt-title-text">Nguyễn Hữu Cảnh - Vị Thượng Đẳng Công Thần Khai Phá Bờ Cõi Phía Nam | BÍ ẨN SỬ VIỆT</div>
-            <div class="yt-sub-text">BÍ ẨN SỬ VIỆT • Tư liệu lịch sử</div>
-          </div>
-        </div>
-
-        <div class="yt-play-button">
-          <i class="fa-solid fa-play"></i>
-        </div>
-
-        <div class="yt-bottom-bar">
-          <span class="yt-link-icon"><i class="fa-solid fa-link"></i></span>
-          <a href="https://youtu.be/ssuIcsjuBAI?si=qAkxS6Ptcw42Xksi" target="_blank" rel="noopener" class="yt-watch-badge" onclick="event.stopPropagation();">
-            Watch on <i class="fa-brands fa-youtube"></i> <strong>YouTube</strong>
-          </a>
-        </div>
+      <div class="video-responsive">
+        <iframe 
+          src="https://cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2FssuIcsjuBAI%3Ffeature%3Doembed&display_name=YouTube&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DssuIcsjuBAI&image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FssuIcsjuBAI%2Fhqdefault.jpg&type=text%2Fhtml&schema=youtube" 
+          title="Nguyễn Hữu Cảnh - Vị Thượng Đẳng Công Thần Khai Phá Bờ Cõi Phía Nam | BÍ ẨN SỬ VIỆT"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen>
+        </iframe>
       </div>
     </div>
-
-    <!-- Chỉ giữ đúng 1 nút Mở video trên YouTube -->
-    <div class="video-helper-bar">
-      <a href="https://youtu.be/ssuIcsjuBAI?si=qAkxS6Ptcw42Xksi" target="_blank" rel="noopener" class="small-action-btn">
-        <i class="fa-brands fa-youtube"></i> Mở video trên YouTube
-      </a>
-    </div>
   </section>
-
   <!-- ================= 2. DÒNG THỜI GIAN (6 THẺ) ================= -->
   <section id="dong-thoi-gian">
     <div class="section-header">
@@ -814,7 +637,7 @@
     </div>
   </section>
 
-  <!-- ================= 3. THƯ VIỆN HÌNH ẢNH & TƯ LIỆU (HIỂN THỊ TRỰC TIẾP ONLINE) ================= -->
+  <!-- ================= 3. THƯ VIỆN HÌNH ẢNH & TƯ LIỆU ================= -->
   <section id="thu-vien-anh">
     <div class="section-header">
       <h2 class="section-title">Thư viện hình ảnh & tư liệu</h2>
@@ -823,7 +646,7 @@
     </div>
 
     <div class="gallery-grid">
-      <!-- Thẻ 1: Đền thờ Nguyễn Hữu Cảnh tại Cù lao Phố (Link Wikimedia bạn gửi) -->
+      <!-- Thẻ 1: Đền thờ Nguyễn Hữu Cảnh tại Cù lao Phố -->
       <div class="gallery-card">
         <div class="gallery-img-box">
           <img 
@@ -840,7 +663,7 @@
         </div>
       </div>
 
-      <!-- Thẻ 2: Chính điện Đền thờ Nguyễn Hữu Cảnh (Link báo Dân Trí bạn gửi) -->
+      <!-- Thẻ 2: Chính điện Đền thờ Nguyễn Hữu Cảnh -->
       <div class="gallery-card">
         <div class="gallery-img-box">
           <img 
@@ -856,7 +679,7 @@
         </div>
       </div>
 
-      <!-- Thẻ 3: Trường THPT Nguyễn Hữu Cảnh - Đồng Nai (Link Clevai bạn gửi) -->
+      <!-- Thẻ 3: Trường THPT Nguyễn Hữu Cảnh - Đồng Nai -->
       <div class="gallery-card">
         <div class="gallery-img-box">
           <img 
@@ -872,7 +695,7 @@
         </div>
       </div>
 
-      <!-- Thẻ 4: Trường THPT Nguyễn Hữu Cảnh - Quảng Bình (Link Clevai bạn gửi) -->
+      <!-- Thẻ 4: Trường THPT Nguyễn Hữu Cảnh - Quảng Bình -->
       <div class="gallery-card">
         <div class="gallery-img-box">
           <img 
@@ -1017,19 +840,7 @@
   <!-- ================= SCRIPTS ================= -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    /* 1. XỬ LÝ PHÁT VIDEO TRỰC TIẾP TRÊN HTTP/HTTPS */
-    function playHeroVideo() {
-      const videoUrl = "https://youtu.be/ssuIcsjuBAI?si=qAkxS6Ptcw42Xksi";
-      if (window.location.protocol === 'file:') {
-        window.open(videoUrl, '_blank');
-      } else {
-        // Khi chạy trên HTTP/HTTPS, phát video trực tiếp ngay trong khung
-        const box = document.getElementById('ytPlayerBox');
-        box.innerHTML = `<iframe src="https://www.youtube.com/embed/ssuIcsjuBAI?autoplay=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
-      }
-    }
-
-    /* 2. XỬ LÝ CAROUSEL DÒNG THỜI GIAN */
+    /* 1. XỬ LÝ CAROUSEL DÒNG THỜI GIAN */
     const track = document.getElementById('timelineTrack');
     const cards = Array.from(track.children);
     const prevBtn = document.getElementById('prevBtn');
@@ -1095,7 +906,7 @@
     renderDots();
     updateCarousel();
 
-    /* 3. BẢN ĐỒ HÀNH TRÌNH ĐỊA LỊCH SỬ */
+    /* 2. BẢN ĐỒ HÀNH TRÌNH ĐỊA LỊCH SỬ */
     const map = L.map('journey-map').setView([13.5, 106.8], 6);
 
     const esriLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
